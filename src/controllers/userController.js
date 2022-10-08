@@ -1,6 +1,7 @@
 import fetch, { Body } from "node-fetch";
 import bcrypt from "bcrypt";
 import User from "../models/User";
+import Video from "../models/Video";
 
 export const startGithubLogin = (req, res) => {
   const baseUrl = `https://github.com/login/oauth/authorize`;
@@ -184,6 +185,7 @@ export const postEdit = async (req, res) => {
 };
 export const getChangePassowrd = (req, res) => {
   if (req.session.user.socialOnly === true) {
+    req.flash("error", "Can't change password");
     return res.redirect("/");
   }
   return res.render("change-password", { pageTitle: "Change Password" });
@@ -211,7 +213,18 @@ export const postChangePassowrd = async (req, res) => {
   }
   user.password = newPassword;
   await user.save();
+  req.flash("info", "Password updated");
   return res.redirect("/users/logout");
 };
 
-export const see = (req, res) => res.send("see");
+export const see = async (req, res) => {
+  const { id } = req.params;
+  const user = await User.findById(id).populate("videos");
+  if (!user) {
+    return res.status(404).render("404", { pageTitle: "User not found." });
+  }
+  return res.render("profile", {
+    pageTitle: `${user.name}'s Profile`,
+    user: user,
+  });
+};

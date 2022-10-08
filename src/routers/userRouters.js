@@ -1,6 +1,5 @@
 import express from "express";
 import {
-  remove,
   logout,
   see,
   startGithubLogin,
@@ -32,6 +31,6 @@ userRouter.get("/github/start", publicOnlyMiddleware, startGithubLogin);
 userRouter.get("/github/finish", publicOnlyMiddleware, finishGithubLogin);
 userRouter.get("/logout", protectorMiddleware, logout);
 
-userRouter.get(":id", see);
+userRouter.get("/:id", see);
 
 export default userRouter;
