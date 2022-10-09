@@ -105,7 +105,7 @@ const handleEnded = () => {
 playBtn.addEventListener("click", handlePlay);
 muteBtn.addEventListener("click", handleMute);
 volumeRange.addEventListener("input", handleVolumeChange);
-video.addEventListener("loadeddata", handleLoadedMetaData);
+video.addEventListener("canplay", handleLoadedMetaData);
 video.addEventListener("timeupdate", handleTimeUpdate);
 videoContainer.addEventListener("mousemove", handleMouseMove);
 videoContainer.addEventListener("mouseleave", handleMouseLeave);
@@ -113,5 +113,6 @@ video.addEventListener("ended", handleEnded);
 timeline.addEventListener("input", handleTimelineChange);
 fullScreenBtn.addEventListener("click", handleFullScreen);
 
+handleLoadedMetaData();
 // 스페이스바나 화면을 눌럿을 때 재생 일시정지 하도록
 // 컨트롤바에 있을때도 컨트롤이 사라지지 않도록 수정
